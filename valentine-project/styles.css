@@ -1,0 +1,434 @@
+/* ============================================
+   Keoagile & Pearly – Valentine Project
+   Premium, mobile-first romantic experience
+   ============================================ */
+
+:root {
+  --bg-start: #1a0a0f;
+  --bg-end: #2d1b2e;
+  --card-bg: linear-gradient(152deg, #ffffff 0%, #fff5f8 30%, #ffecf2 60%, #ffe0eb 100%);
+  --card-border: rgba(255, 255, 255, 0.85);
+  --card-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(196, 30, 90, 0.12), 0 24px 48px rgba(180, 60, 100, 0.18);
+  --accent: #c41e5a;
+  --accent-soft: #e91e63;
+  --accent-glow: rgba(196, 30, 90, 0.4);
+  --text-dark: #1a0d12;
+  --text-soft: #5c3d4a;
+  --yes-bg: linear-gradient(135deg, #c41e5a 0%, #e91e63 100%);
+  --no-bg: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  --font-display: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  font-family: var(--font-body);
+  background: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 50%, #1a0a14 100%);
+  background-attachment: fixed;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  box-sizing: border-box;
+}
+
+/* Subtle floating hearts background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--accent-glow) 0%, transparent 25%),
+    radial-gradient(circle at 80% 70%, rgba(233, 30, 99, 0.2) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Cinematic splash screen ─── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #0d0510 0%, #1a0a14 50%, #0d0510 100%);
+  opacity: 1;
+  transition: opacity 0.6s var(--ease-out-expo);
+}
+.splash.splash-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.splash-inner {
+  text-align: center;
+  animation: splashContent 1.2s var(--ease-out-expo) both;
+}
+.splash-emoji {
+  display: block;
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  animation: sparklePulse 2s var(--ease-in-out-smooth) infinite;
+}
+.splash-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.02em;
+}
+.splash-sub {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 220, 235, 0.95);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+@keyframes splashContent {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes sparklePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border-radius: 28px;
+  padding: 2.25rem 2rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  text-align: center;
+  animation: cardEnter 1s var(--ease-out-expo) forwards;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ─── 💍 Proposal ring sparkle (around Yes button) ─── */
+.yes-btn-wrap {
+  position: relative;
+  display: inline-block;
+}
+.ring-sparkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #fff 30%, rgba(255, 215, 0, 0.9) 70%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+  animation: ringSparkle 2.5s var(--ease-in-out-smooth) infinite;
+}
+.sparkle.s1 { left: 50%; top: 0; margin-left: -3px; animation-delay: 0s; }
+.sparkle.s2 { right: 4px; top: 20%; animation-delay: 0.2s; }
+.sparkle.s3 { right: 0; top: 50%; margin-top: -3px; animation-delay: 0.4s; }
+.sparkle.s4 { right: 4px; bottom: 20%; animation-delay: 0.6s; }
+.sparkle.s5 { left: 50%; bottom: 0; margin-left: -3px; animation-delay: 0.8s; }
+.sparkle.s6 { left: 4px; top: 20%; animation-delay: 1s; }
+@keyframes ringSparkle {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.container h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4.8vw, 1.9rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.subtext {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  margin: 0 0 1.875rem;
+  letter-spacing: 0.01em;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  min-height: 3.25rem;
+}
+
+.yes-btn,
+.no-btn {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.85rem 1.5rem;
+  min-height: 44px;
+  min-width: 44px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-in-out-smooth);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.yes-btn {
+  background: var(--yes-bg);
+  color: white;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.yes-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 28px var(--accent-glow);
+}
+
+.yes-btn:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* No button – position controlled by JS for "playful" escape */
+.no-btn {
+  background: var(--no-bg);
+  color: white;
+  transition: transform 0.3s var(--ease-out-expo), opacity 0.25s var(--ease-in-out-smooth);
+}
+
+.no-btn:hover,
+.no-btn:focus-visible {
+  transform: scale(1.02);
+}
+
+.no-btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.no-message {
+  font-family: var(--font-body);
+  margin-top: 1rem;
+  color: white;
+  font-weight: 600;
+  min-height: 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  animation: fadeIn 0.4s var(--ease-in-out-smooth);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Yes clicked – celebration state (Apple-style spring) */
+.container.celebrating {
+  animation: celebrate 0.7s var(--ease-spring) forwards;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  75% { transform: scale(0.98); }
+  100% { transform: scale(1.02); }
+}
+
+/* 💎 Reduced motion – respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .splash,
+  .splash-inner,
+  .splash-emoji,
+  .container,
+  .sparkle,
+  .yes-btn, .no-btn,
+  .no-message {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  .splash.splash-out {
+    transition-duration: 0.2s;
+  }
+}
+
+/* ========== Success page (body.success-page) ========== */
+body.success-page,
+.success-page {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+  padding: 1rem;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+}
+
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes successGlow {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.15); }
+}
+
+.message-container {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border-radius: 28px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  text-align: center;
+  animation: cardEnter 1s var(--ease-out-expo) forwards;
+}
+
+body.success-page .message-container h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 1rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+body.success-page .message-container p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  margin: 0 0 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+#playBtn,
+.play-music {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--yes-bg);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  min-height: 44px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px var(--accent-glow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+#playBtn:hover,
+.play-music:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 28px var(--accent-glow);
+}
+
+#playBtn:disabled,
+.play-music:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+
+.success-card {
+  max-width: 440px;
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: 28px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  animation: cardEnter 1s var(--ease-out-expo) forwards;
+}
+
+.success-page .message {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  margin: 0 0 1.5rem;
+  font-weight: 500;
+}
+
+.signature {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--accent-soft);
+  letter-spacing: 0.02em;
+}
